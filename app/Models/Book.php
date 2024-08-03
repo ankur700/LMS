@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Book extends Model
+{
+    use HasFactory;
+    use SoftDeletes;
+
+    protected $table = 'books';
+
+    protected $fillable = [
+        'title',
+        'author',
+        'isbn',
+        'book_category_id',
+        'shelf_id',
+        'publisher',
+        'published_year',
+    ];
+
+    public function bookCategory(): BelongsTo
+    {
+        return $this->belongsTo(BookCategory::class);
+    }
+
+    public function shelf(): BelongsTo
+    {
+        return $this->belongsTo(Shelf::class, 'shelf_id');
+    }
+
+    public function bookCount(): HasOne
+    {
+        return $this->HasOne(BookCount::class);
+    }
+
+    public function bookIssue(): HasMany
+    {
+        return $this->HasMany(BookIssue::class);
+    }
+}
