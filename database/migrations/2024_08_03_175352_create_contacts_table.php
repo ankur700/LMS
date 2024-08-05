@@ -34,7 +34,6 @@ return new class extends Migration
             $table->string('region')->nullable()->default(null);
             $table->string('zip_code')->nullable()->default(null);
             $table->string('postal_code')->nullable()->default(null);
-            $table->foreignId('contact_list_id')->constrained('contact_lists')->onDelete('cascade');
             $table->foreignId('contact_category_id')->constrained('contact_categories')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();

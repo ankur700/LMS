@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BookResource extends Resource
 {
     protected static ?string $model = Book::class;
-
+    protected static ?string $navigationGroup = 'Manage Library';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -24,16 +24,18 @@ class BookResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+            ->label('Book Title')
                     ->required(),
                 Forms\Components\TextInput::make('author')
                     ,
                 Forms\Components\TextInput::make('isbn')
+            ->label('ISBN Number')
                 ->mask('999-9-99-999999-9')
                 ->placeholder('999-9-99-999999-9')
-                ->stripCharacters('-')
-                ->numeric(),
+            // ->stripCharacters('-')
+            ,
                 Forms\Components\Select::make('book_category_id')
-                    ->relationship('bookCategory', 'name')
+            ->relationship('category', 'name')
                     ->required()
                     ->native(false),
                 Forms\Components\Select::make('shelf_id')
@@ -43,7 +45,8 @@ class BookResource extends Resource
                 Forms\Components\TextInput::make('publisher')
                     ,
                 Forms\Components\TextInput::make('published_year')
-
+            ->numeric(),
+            Forms\Components\TextInput::make('book_count')
                     ->numeric(),
             ]);
     }
@@ -58,8 +61,8 @@ class BookResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('isbn')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('bookCount.count'),
-                Tables\Columns\TextColumn::make('bookCategory.name')
+            Tables\Columns\TextColumn::make('book_count'),
+            Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('shelf.name')
@@ -106,7 +109,8 @@ class BookResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            BookResource\RelationManagers\CategoryRelationManager::class,
+            BookResource\RelationManagers\ShelfRelationManager::class,
         ];
     }
 
@@ -126,11 +130,5 @@ class BookResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public function issueBook($record): void
-    {
-        // This method will be called when the "Issue Book" button is clicked
-        // You will need to create a form or modal to complete the issuance process
     }
 }

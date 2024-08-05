@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BookIssueResource extends Resource
 {
     protected static ?string $model = BookIssue::class;
+    protected static ?string $navigationGroup = 'Manage Library';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

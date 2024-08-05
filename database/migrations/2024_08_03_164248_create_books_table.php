@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('book_category_id')->constrained('book_categories')->onDelete('cascade');
             $table->foreignId('shelf_id')->constrained('shelves')->onDelete('cascade');
             $table->string('publisher')->nullable();
-            $table->integer('published_year')->nullable();
+            $table->year('published_year')->nullable();
+            $table->tinyInteger('book_count')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

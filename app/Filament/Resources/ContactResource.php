@@ -16,29 +16,39 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
+    protected static ?string $navigationGroup = 'Manage Address Book';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('title'),
+            ->schema([Forms\Components\Select::make('title')
+                ->options(['Mr' => 'Mr', 'Mrs' => 'Mrs', 'Miss' => 'Miss', 'Dr' => 'Dr', 'Prof.' => 'Prof.']),
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('gender'),
                 Forms\Components\TextInput::make('designation'),
-                Forms\Components\TextInput::make('language'),
+            Forms\Components\Select::make('language')
+            ->options(['english' => 'English', 'nepali' => 'Nepali', 'both' => 'Both']),
                 Forms\Components\TextInput::make('email')
                     ->email(),
                 Forms\Components\TextInput::make('fax')
+            ->tel()
+            ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                     ->numeric(),
                 Forms\Components\TextInput::make('phone_number')
                     ->tel()
                     ->numeric(),
                 Forms\Components\TextInput::make('mobile_number')
+            ->tel()
+            ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
+            ->mask('+999-999-999-9999')
+            ->placeholder('+999-999-999-9999')
+            ->stripCharacters('-', '+')
                     ->numeric(),
                 Forms\Components\TextInput::make('extension_number')
+            ->length(3)
                     ->numeric(),
                 Forms\Components\TextInput::make('organisation_name'),
                 Forms\Components\TextInput::make('organisation_department'),
@@ -50,10 +60,7 @@ class ContactResource extends Resource
                 Forms\Components\TextInput::make('country'),
                 Forms\Components\TextInput::make('region'),
                 Forms\Components\TextInput::make('zip_code'),
-                Forms\Components\TextInput::make('postal_code'),
-                Forms\Components\Select::make('contact_list_id')
-                    ->relationship('contactList', 'name')
-                    ->required(),
+            Forms\Components\TextInput::make('postal_code'),
                 Forms\Components\Select::make('contact_category_id')
                     ->relationship('contactCategory', 'name')
                     ->required(),
@@ -110,9 +117,7 @@ class ContactResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('postal_code')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('contactList.name')
-                    ->numeric()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('contactCategory.name')
                     ->numeric()
                     ->sortable(),

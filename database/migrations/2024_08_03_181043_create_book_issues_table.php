@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('book_issues', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
-            $table->foreignId('employee_id')->constrained('employee')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->date('issue_date')->default(now());
             $table->date('return_date')->nullable()->default(null);
-            $table->tinyInteger('remarks')->nullable()->default(null);
+            $table->tinyText('remarks')->nullable()->default(null);
             $table->timestamps();
         });
     }

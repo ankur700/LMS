@@ -36,13 +36,9 @@ class Contact extends Model
         'region',
         'zip_code',
         'postal_code',
-        'contact_list_id',
         'contact_category_id',
     ];
-    public function contactList(): BelongsTo
-    {
-        return $this->belongsTo(ContactList::class);
-    }
+
 
     public function contactCategory(): BelongsTo
     {

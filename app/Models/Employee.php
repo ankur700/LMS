@@ -16,7 +16,7 @@ class Employee extends Model
         'name',
     ];
 
-    public function bookIssue(): HasMany
+    public function bookIssues(): HasMany
     {
         return $this->hasMany(BookIssue::class);
     }

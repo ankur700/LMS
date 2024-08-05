@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ShelfResource extends Resource
 {
     protected static ?string $model = Shelf::class;
-
+    protected static ?string $navigationGroup = 'Manage Library';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form

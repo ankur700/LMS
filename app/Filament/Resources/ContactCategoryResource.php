@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ContactCategoryResource extends Resource
 {
     protected static ?string $model = ContactCategory::class;
-
+    protected static ?string $navigationGroup = 'Manage Address Book';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -25,6 +25,9 @@ class ContactCategoryResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required(),
+                    Forms\Components\Select::make('parent')
+                    ->options(ContactCategory::where('parent_id', null)->pluck('name', 'id')->all())
+                    ,
             ]);
     }
 

@@ -3,6 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use App\Filament\Resources\BookCategoryResource;
+use App\Filament\Resources\BookResource;
+use App\Filament\Resources\ShelfResource;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 }

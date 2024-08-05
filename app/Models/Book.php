@@ -24,11 +24,12 @@ class Book extends Model
         'shelf_id',
         'publisher',
         'published_year',
+        'book_count',
     ];
 
-    public function bookCategory(): BelongsTo
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(BookCategory::class);
+        return $this->belongsTo(BookCategory::class, 'book_category_id');
     }
 
     public function shelf(): BelongsTo
@@ -36,13 +37,4 @@ class Book extends Model
         return $this->belongsTo(Shelf::class, 'shelf_id');
     }
 
-    public function bookCount(): HasOne
-    {
-        return $this->HasOne(BookCount::class);
-    }
-
-    public function bookIssue(): HasMany
-    {
-        return $this->HasMany(BookIssue::class);
-    }
 }
